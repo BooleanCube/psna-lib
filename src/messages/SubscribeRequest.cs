@@ -9,8 +9,9 @@ public class SubscribeRequest : Message
     private IPEndPoint _subscriberEndPoint;
     
     
-    public SubscribeRequest(byte[] buffer, IPEndPoint subscriberEndPoint)
+    public SubscribeRequest(byte[] buffer, IPEndPoint subscriberEndPoint, NetworkServer server)
     {
+        Server = server;
         Buffer = buffer;
         MessageTypeName = "Subscribe Request Message";
         GetFormatHelp = "stuff to fill out";
@@ -49,7 +50,7 @@ public class SubscribeRequest : Message
     {
         try
         {
-            NetworkServer.AddSubscriberConnection(AUTHOR, SUBSCRIBER);
+            Server.AddSubscriberConnection(AUTHOR, SUBSCRIBER);
 
             return true;
         }

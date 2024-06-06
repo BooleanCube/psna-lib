@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Sockets;
 
 namespace psna_lib.messages;
 
@@ -6,8 +7,11 @@ public class PublishDirect : Message
 {
     private IPEndPoint _authorEndPoint;
     
-    public PublishDirect(byte[] buffer, IPEndPoint authorEndPoint)
+    private bool _isBroadcast;
+
+    public PublishDirect(byte[] buffer, IPEndPoint authorEndPoint, NetworkServer server)
     {
+        Server = server;
         Buffer = buffer;
         MessageTypeName = "Direct Publish To Subscribers";
         GetFormatHelp = "add stuff later";
@@ -23,15 +27,20 @@ public class PublishDirect : Message
 
     public override bool RunAction()
     {
-        foreach (IPEndPoint subscriber in NetworkServer.GetSubscribers(AUTHOR))
+        foreach (IPEndPoint subscriber in Server.GetSubscribers(AUTHOR))
         {
-            
+            CheckForBroadcast(subscriber.Address);
+            Server.OpenSocket.SendTo(Buffer, 0, Bytes, SocketFlags.None, subscriber);
         }
         return true;
     }
 
     private void CheckForBroadcast(IPAddress ipAddress)
     {
-        // if(NetworkServer)
+        if (!_isBroadcast && ipAddress.Equals(IPAddress.Broadcast))
+        {
+            _isBroadcast = true;
+            Server.OpenSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
+        }
     }
 }

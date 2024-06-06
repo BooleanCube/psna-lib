@@ -2,7 +2,7 @@ using System.Numerics;
 
 namespace psna_lib.structs;
 
-public class Transform
+public struct Transform
 {
     private Vector3 _position, _localPosition, _localScale;
     private Quaternion _rotation, _localRotation;

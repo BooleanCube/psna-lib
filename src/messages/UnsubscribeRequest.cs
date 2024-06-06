@@ -9,7 +9,7 @@ public class UnsubscribeRequest : Message
     private IPEndPoint _subscriberEndPoint;
     
     
-    public UnsubscribeRequest(byte[] buffer, IPEndPoint subscriberEndPoint)
+    public UnsubscribeRequest(byte[] buffer, IPEndPoint subscriberEndPoint, NetworkServer server)
     {
         Buffer = buffer;
         MessageTypeName = "Unsubscribe Request Message";
@@ -49,7 +49,7 @@ public class UnsubscribeRequest : Message
     {
         try
         {
-            NetworkServer.RemoveSubscriberConnection(AUTHOR, SUBSCRIBER);
+            Server.RemoveSubscriberConnection(AUTHOR, SUBSCRIBER);
 
             return true;
         }

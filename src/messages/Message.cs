@@ -4,6 +4,7 @@ public class Message
 {
     private int _bufferSize;
     private byte[] _buffer = [];
+    private NetworkServer _server;
 
     private static string _typeName;
     private static string _formatHelp;
@@ -11,8 +12,9 @@ public class Message
     public Message() {}
 
     // Constructor Template
-    public Message(byte[] buffer)
+    public Message(byte[] buffer, NetworkServer server)
     {
+        Server = server;
         Buffer = buffer;
         MessageTypeName = "Message Type Name";
         GetFormatHelp = "SERVER MESSAGE HELP =>\n \n" +
@@ -25,10 +27,16 @@ public class Message
         // TODO add each message type format help to the end of the string wid a loop
     }
 
+    public int Bytes
+    {
+        get { return _bufferSize; }
+        set { _bufferSize = value; }
+    }
+
     public byte[] Buffer
     {
         get { return _buffer; }
-        set { _buffer = value; _bufferSize = _buffer.Length; }
+        set { _buffer = value; Bytes = _buffer.Length; }
     }
 
     public string GetFormatHelp
@@ -41,6 +49,12 @@ public class Message
     {
         get { return _typeName;  }
         set { _typeName = value; }
+    }
+
+    public NetworkServer Server
+    {
+        get { return _server; }
+        set { this._server = value; }
     }
     
     // Parse Message Function Template
@@ -74,6 +88,7 @@ public class Message
             // commands to run after parsing the message
 
             // successfully ran the action attached to the corresponding message type
+            // signals to send a success message
             return true;
         }
         catch (Exception e)

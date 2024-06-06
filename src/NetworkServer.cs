@@ -10,7 +10,7 @@ using System.Threading;
 
 public class NetworkServer
 {
-    private static Dictionary<IPEndPoint, HashSet<IPEndPoint>> _authorToSubscribers;
+    private Dictionary<IPEndPoint, HashSet<IPEndPoint>> _authorToSubscribers;
     private Socket _oSocket;
     private IPEndPoint _localEP;
 
@@ -105,17 +105,17 @@ public class NetworkServer
         }
     }
 
-    public static bool AddSubscriberConnection(IPEndPoint author, IPEndPoint subscriber)
+    public bool AddSubscriberConnection(IPEndPoint author, IPEndPoint subscriber)
     {
         return _authorToSubscribers[author].Add(subscriber);
     }
 
-    public static bool RemoveSubscriberConnection(IPEndPoint author, IPEndPoint subscriber)
+    public bool RemoveSubscriberConnection(IPEndPoint author, IPEndPoint subscriber)
     {
         return _authorToSubscribers[author].Remove(subscriber);
     }
 
-    public static HashSet<IPEndPoint> GetSubscribers(IPEndPoint author)
+    public HashSet<IPEndPoint> GetSubscribers(IPEndPoint author)
     {
         return _authorToSubscribers[author];
     }
