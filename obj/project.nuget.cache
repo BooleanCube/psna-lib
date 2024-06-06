@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "VUenurpm5W7u9DY1BvCK+hmmeUVU4Q4fZnCj1d1NL/tPXwKKmKMtBfPgA0+mBfyVOPWDGXnxu2mT9P9vWX8G0Q==",
+  "success": true,
+  "projectFilePath": "/home/boole/Documents/projects/psna-lib/psna-lib.csproj",
+  "expectedPackageFiles": [
+    "/home/boole/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.6/microsoft.aspnetcore.app.ref.8.0.6.nupkg.sha512"
+  ],
+  "logs": []
+}

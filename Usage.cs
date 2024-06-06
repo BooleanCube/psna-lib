@@ -1,10 +1,3 @@
-﻿
-namespace psna_lib
-{
-    internal class Usage
-    {
-        public static void Main(string[] args)
-        {
-        }
-    }
-}
+﻿// See https://aka.ms/new-console-template for more information
+
+Console.WriteLine("Hello, World!");
