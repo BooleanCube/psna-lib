@@ -10,7 +10,7 @@ using System.Threading;
 
 public class NetworkServer
 {
-    private Dictionary<IPEndPoint, HashSet<IPEndPoint>> _authorToSubscribers;
+    private Dictionary<byte, HashSet<IPEndPoint>> _topicToClients;
     private Socket _oSocket;
     private IPEndPoint _localEP;
 
@@ -25,7 +25,7 @@ public class NetworkServer
 
     public NetworkServer(IPEndPoint endPoint)
     {
-        _authorToSubscribers = new Dictionary<IPEndPoint, HashSet<IPEndPoint>>();
+        _topicToClients = new Dictionary<byte, HashSet<IPEndPoint>>();
         _oSocket = new Socket(SocketType.Dgram, ProtocolType.Udp);
         _localEP = endPoint;
         OpenSocket.Bind(_localEP);
@@ -105,18 +105,23 @@ public class NetworkServer
         }
     }
 
-    public bool AddSubscriberConnection(IPEndPoint author, IPEndPoint subscriber)
+    public bool AddSubscriberConnection(IPEndPoint client, byte topicId)
     {
-        return _authorToSubscribers[author].Add(subscriber);
+        return _topicToClients[topicId].Add(client);
     }
 
-    public bool RemoveSubscriberConnection(IPEndPoint author, IPEndPoint subscriber)
+    public bool RemoveSubscriberConnection(IPEndPoint client, byte topicId)
     {
-        return _authorToSubscribers[author].Remove(subscriber);
+        return _topicToClients[topicId].Remove(client);
     }
 
-    public HashSet<IPEndPoint> GetSubscribers(IPEndPoint author)
+    public HashSet<IPEndPoint> GetSubscribers(byte topicId)
     {
-        return _authorToSubscribers[author];
+        return _topicToClients[topicId];
+    }
+
+    public bool IsSubscribed(IPEndPoint client, byte topicId)
+    {
+        return _topicToClients[topicId].Contains(client);
     }
 }

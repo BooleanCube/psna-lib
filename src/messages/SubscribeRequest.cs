@@ -5,24 +5,22 @@ namespace psna_lib.messages;
 
 public class SubscribeRequest : Message
 {
-    private IPEndPoint _authorEndPoint;
+    private byte _subscription;
     private IPEndPoint _subscriberEndPoint;
     
     
-    public SubscribeRequest(byte[] buffer, IPEndPoint subscriberEndPoint, NetworkServer server)
+    public SubscribeRequest(byte[] buffer, NetworkServer server, IPEndPoint subscriberEndPoint)
     {
         Server = server;
         Buffer = buffer;
-        MessageTypeName = "Subscribe Request Message";
-        GetFormatHelp = "stuff to fill out";
         
         SUBSCRIBER = subscriberEndPoint;
     }
 
-    public IPEndPoint AUTHOR
+    public byte TOPIC
     {
-        get { return _authorEndPoint; }
-        set { _authorEndPoint = value;  }
+        get { return _subscription; }
+        set { _subscription = value; }
     }
 
     public IPEndPoint SUBSCRIBER
@@ -35,8 +33,7 @@ public class SubscribeRequest : Message
     {
         try
         {
-            string message = Encoding.ASCII.GetString(Buffer);
-            AUTHOR = IPEndPoint.Parse(message.Remove(0, 1));
+            TOPIC = Buffer[1];
 
             return true;
         }
@@ -50,7 +47,7 @@ public class SubscribeRequest : Message
     {
         try
         {
-            Server.AddSubscriberConnection(AUTHOR, SUBSCRIBER);
+            Server.AddSubscriberConnection(SUBSCRIBER, TOPIC);
 
             return true;
         }

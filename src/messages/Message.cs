@@ -1,13 +1,10 @@
 namespace psna_lib.messages;
 
-public class Message
+public abstract class Message
 {
     private int _bufferSize;
     private byte[] _buffer = [];
     private NetworkServer _server;
-
-    private static string _typeName;
-    private static string _formatHelp;
     
     public Message() {}
 
@@ -16,15 +13,6 @@ public class Message
     {
         Server = server;
         Buffer = buffer;
-        MessageTypeName = "Message Type Name";
-        GetFormatHelp = "SERVER MESSAGE HELP =>\n \n" +
-                        "Message Type Specification (required):\n" +
-                        "Specify the message type to the server within the buffer stream, by allotting the first " +
-                        "byte of your buffer stream (at index 0), to the corresponding message type. For Example:\n" +
-                        "byte[] buffer; // loaded with your message content\n" +
-                        "buffer[0]; // contains the byte value corresponding to one of the applicable message types.";
-        // TODO add message types from static array
-        // TODO add each message type format help to the end of the string wid a loop
     }
 
     public int Bytes
@@ -37,18 +25,6 @@ public class Message
     {
         get { return _buffer; }
         set { _buffer = value; Bytes = _buffer.Length; }
-    }
-
-    public string GetFormatHelp
-    {
-        get { return _formatHelp; }
-        set { _formatHelp = value; }
-    }
-
-    public string MessageTypeName
-    {
-        get { return _typeName;  }
-        set { _typeName = value; }
     }
 
     public NetworkServer Server
