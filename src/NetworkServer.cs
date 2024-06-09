@@ -15,6 +15,7 @@ public class NetworkServer
     private IPEndPoint _localEP;
 
     private Thread _scheduledThread;
+    private bool _runThread;
 
     private static readonly int _maxBufferSize = 0x10000;
     private byte[] _gBuffer = new byte[_maxBufferSize];
@@ -30,10 +31,14 @@ public class NetworkServer
         _localEP = endPoint;
         OpenSocket.Bind(_localEP);
         
+        _runThread = false;
         _scheduledThread = new Thread(() =>
         {
-            ReadMessage();
-            Thread.Sleep(100);
+            while (_runThread)
+            {
+                ReadMessage();
+                Thread.Sleep(100);
+            }
         });
     }
 
@@ -57,6 +62,7 @@ public class NetworkServer
 
     public void Run()
     {
+        _runThread = true;
         ServerThread.Start();
     }
 
@@ -64,9 +70,10 @@ public class NetworkServer
     {
         try
         {
+            _runThread = false;
             ServerThread.Abort();
         }
-        catch (ThreadStateException e)
+        catch (Exception e)
         {
             Console.WriteLine(e.Message);
         }
