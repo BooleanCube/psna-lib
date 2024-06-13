@@ -6,9 +6,6 @@ public class DirectPublish : Message
     private byte[] _buffer;
     private NetworkServer _server;
 
-    private static string _typeName;
-    private static string _formatHelp;
-
     public DirectPublish()
     {
         Buffer = [];
