@@ -1,10 +1,11 @@
+using System.Net;
+
 namespace psna_lib.messages;
 
 public class DirectPublish : Message
 {
     private int _bufferSize;
     private byte[] _buffer;
-    private NetworkServer _server;
 
     public DirectPublish()
     {
@@ -12,10 +13,12 @@ public class DirectPublish : Message
     }
 
     // Constructor Template
-    public DirectPublish(byte[] buffer, NetworkServer server)
+    public DirectPublish(byte[] buffer, NetworkServer server, IPEndPoint authorEndPoint)
     {
         Server = server;
         Buffer = buffer;
+
+        Author = authorEndPoint;
     }
     
     public virtual bool ParseMessage()

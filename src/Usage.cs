@@ -15,7 +15,7 @@ Console.WriteLine("Hello, World!");
  
 // Client-Server Message Architecture:
 // - Network Publish
-// - Publish Direct
+// - Publish Direct (communicates through server)
 // - Subscribe Request
 // - Unsubscribe Request
 

@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace psna_lib.messages;
 
 public abstract class Message
@@ -5,6 +7,7 @@ public abstract class Message
     private int _bufferSize;
     private byte[] _buffer = [];
     private NetworkServer _server;
+    private IPEndPoint _authorEndPoint;
     
     public Message() {}
 
@@ -31,6 +34,12 @@ public abstract class Message
     {
         get { return _server; }
         set { this._server = value; }
+    }
+    
+    public IPEndPoint Author
+    {
+        get { return _authorEndPoint; }
+        set { _authorEndPoint = value; }
     }
     
     // Parse Message Function Template

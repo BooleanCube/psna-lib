@@ -6,26 +6,20 @@ namespace psna_lib.messages;
 public class UnsubscribeRequest : Message
 {
     private byte _subscription;
-    private IPEndPoint _subscriberEndPoint;
     
     
-    public UnsubscribeRequest(byte[] buffer, NetworkServer server, IPEndPoint subscriberEndPoint)
+    public UnsubscribeRequest(byte[] buffer, NetworkServer server, IPEndPoint authorEndPoint)
     {
+        Server = server;
         Buffer = buffer;
         
-        SUBSCRIBER = subscriberEndPoint;
+        Author = authorEndPoint;
     }
 
     public byte TOPIC
     {
         get { return _subscription; }
         set { _subscription = value; }
-    }
-    
-    public IPEndPoint SUBSCRIBER
-    {
-        get { return _subscriberEndPoint; }
-        set { _subscriberEndPoint = value; }
     }
 
     public override bool ParseMessage()
@@ -46,9 +40,7 @@ public class UnsubscribeRequest : Message
     {
         try
         {
-            Server.RemoveSubscriberConnection(SUBSCRIBER, TOPIC);
-
-            return true;
+            return Server.RemoveSubscriberConnection(Author, TOPIC);
         }
         catch (Exception e)
         {

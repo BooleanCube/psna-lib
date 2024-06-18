@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("psna-lib")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6029e371a85471cd87a2d4085ff78b2661d2770a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+80e557363e26d7de7cc7d5e5525d0d7a7e47ea20")]
 [assembly: System.Reflection.AssemblyProductAttribute("psna-lib")]
 [assembly: System.Reflection.AssemblyTitleAttribute("psna-lib")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
