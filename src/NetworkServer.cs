@@ -1,4 +1,5 @@
 using System.Numerics;
+using psna_lib.messages;
 
 namespace psna_lib;
 
@@ -10,7 +11,7 @@ using System.Threading;
 
 public class NetworkServer
 {
-    private Dictionary<byte, HashSet<IPEndPoint>> _topicToClients;
+    private HashSet<IPEndPoint>[] _topicToClients;
     private Socket _oSocket;
     private IPEndPoint _localEP;
 
@@ -26,7 +27,7 @@ public class NetworkServer
 
     public NetworkServer(IPEndPoint endPoint)
     {
-        _topicToClients = new Dictionary<byte, HashSet<IPEndPoint>>();
+        _topicToClients = new HashSet<IPEndPoint>[256];
         _oSocket = new Socket(SocketType.Dgram, ProtocolType.Udp);
         _localEP = endPoint;
         OpenSocket.Bind(_localEP);
@@ -94,15 +95,28 @@ public class NetworkServer
         int receivedBufferSize = OpenSocket.EndReceiveFrom(result, ref remoteEP);
         IPEndPoint authorEndPoint = (IPEndPoint) remoteEP;
 
+        Message message;
+
         switch (_gBuffer[0])
         {
-            case 0:
+            case ID.m_SUBSCRIBE_REQUEST:
+                message = new SubscribeRequest(_gBuffer, this, authorEndPoint);
                 break;
-            case 1:
+            case ID.m_UNSUBSCRIBE_REQUEST:
+                message = new UnsubscribeRequest(_gBuffer, this, authorEndPoint);
+                break;
+            case ID.m_NETWORK_PUBLISH:
+                message = new NetworkPublish(_gBuffer, this, authorEndPoint);
+                break;
+            case ID.m_DIRECT_PUBLISH:
+                message = new DirectPublish(_gBuffer, this, authorEndPoint);
                 break;
             default:
-                break;
+                return;
         }
+
+        if(!message.ParseMessage()) return;
+        if(!message.RunAction()) return;
 
         if (receivedBufferSize < _maxBufferSize)
         {
