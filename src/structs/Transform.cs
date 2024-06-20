@@ -1,7 +1,6 @@
-using System.Numerics;
-
 namespace psna_lib.structs;
 
+[Serializable]
 public struct Transform
 {
     private Vector3 _position, _localPosition, _localScale;
