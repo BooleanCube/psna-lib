@@ -1,8 +1,19 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using psna_lib;
+using System.Net;
+using System.Text.Json;
+using psna_lib.structs;
 
-Console.WriteLine("Hello, World!");
+// serialization and deserialization testing
+DirectMessage dm = new DirectMessage(new IPEndPoint(IPAddress.Any, 1024), new byte[] { 1, 2, 3, 4 });
+
+Console.WriteLine(dm.Recipient);
+string jsonString = JsonSerializer.Serialize(dm);
+
+Console.WriteLine(jsonString);
+
+DirectMessage deserialized = JsonSerializer.Deserialize<DirectMessage>(jsonString);
+Console.WriteLine(deserialized.Recipient);
 
 /*
  * TODO: 
@@ -19,20 +30,26 @@ Console.WriteLine("Hello, World!");
 // - Subscribe Request
 // - Unsubscribe Request
 
+// For Network Publish and Direct Publish, create a secondary message struct that stores authors endpoint
+// so subscribers can respond.
+
 // Client-Client Message Architecture
 // - Publish Secret (doesn't communicate through server)
 
 // Topic Architecture
 // - Author End Point
-// - Custom Structs
-// - Valuable Data
+// - Struct Content
 // - Topic ID
 
 // Useful Struct Ideas
-// - Transform
+// - Transform (done)
+// - Vector3 (done)
+// - Quaternion (done)
 // - IRLPosition
 
 // Utils Functions
 // - Transform to IRLPosition Converter
-// - Topic to Buffer (Appending mId and tId to prefix of protocol buffer
-// - Buffer to Topic
+// - Topic to Buffer (Appending mId and tId to prefix of protocol buffer (done)
+// - Buffer to Topic (done)
+
+// make a separate file to manage threading
