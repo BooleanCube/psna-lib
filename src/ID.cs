@@ -9,6 +9,4 @@ public static class ID
     public const byte m_DIRECT_PUBLISH = 3;
 
     // Topic IDs
-    public const byte t_TRANSFORM = 0;
-    public const byte t_IRL_POSITION = 1;
 }
