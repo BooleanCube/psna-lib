@@ -29,8 +29,7 @@ public class NetworkServer
     {
         _topicToClients = new HashSet<IPEndPoint>[256];
         _oSocket = new Socket(SocketType.Dgram, ProtocolType.Udp);
-        _localEP = endPoint;
-        OpenSocket.Bind(_localEP);
+        _localEP = endPoint; _oSocket.Bind(_localEP);
         
         _runThread = false;
         _scheduledThread = new Thread(() =>
@@ -38,7 +37,7 @@ public class NetworkServer
             while (_runThread)
             {
                 ReadMessage();
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
         });
     }
